@@ -1,0 +1,47 @@
+
+let x : Int = 10;
+let y : Int = 5;
+let ativo : Bool = true;
+
+x + y;
+x - y;
+x * y;
+x / y;
+
+x < y;
+x > y;
+x == y;
+x != y;
+
+if x > y then x else y;
+
+let idade : Int = 18;
+let maiorDeIdade : Bool = idade >= 18;
+
+maiorDeIdade;
+
+if maiorDeIdade then 1 else 0;
+
+let area : Int = (4 + 2) * 5;
+area;
+
+fun dobro : Int -> Int;
+let dobro n = n * 2;
+
+dobro 10;
+
+fun fact : Int -> Int;
+let fact n = if n == 0 then 1 else n * fact (n - 1);
+fact 5;
+
+fun maior : Int -> Int -> Int;
+let maior a b =
+    if a > b then a else b;
+
+maior 20 30;
+
+when (x) is
+    0 -> 100;
+    5 -> 200;
+    _ -> 999;
+end;
