@@ -4,7 +4,6 @@ import ply.lex as lex
 class MiniFunLexer:
     tokens = (
         "NUMBER",
-        "STRING",
         "ID",
         "PLUS",
         "MINUS",
@@ -34,7 +33,6 @@ class MiniFunLexer:
         "END",
         "INT_TYPE",
         "BOOL_TYPE",
-        "STRING_TYPE",
         "TRUE",
         "FALSE",
     )
@@ -50,7 +48,6 @@ class MiniFunLexer:
         "end": "END",
         "Int": "INT_TYPE",
         "Bool": "BOOL_TYPE",
-        "String": "STRING_TYPE",
         "true": "TRUE",
         "false": "FALSE",
     }
@@ -88,11 +85,6 @@ class MiniFunLexer:
     def t_NUMBER(self, t):
         r"\d+"
         t.value = int(t.value)
-        return t
-
-    def t_STRING(self, t):
-        r'"[^"\n]*"'
-        t.value = t.value[1:-1]
         return t
 
     def t_UNDERSCORE(self, t):

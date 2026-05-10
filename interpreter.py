@@ -4,14 +4,13 @@ class Interpreter:
         self.env_types = {}
         self.functions = {}
         self.signatures = {}
+        self.call_stack = []
 
     def get_type(self, value):
         if type(value) is bool:
             return "Bool"
         if type(value) is int:
             return "Int"
-        if type(value) is str:
-            return "String"
         return "Unknown"
 
     def resolve_variable_type(self, name, local_types):
@@ -34,8 +33,6 @@ class Interpreter:
             return "Bool"
         if type(node) is int:
             return "Int"
-        if type(node) is str:
-            return "String"
 
         kind = node[0]
 
@@ -147,7 +144,7 @@ class Interpreter:
         raise Exception(f"Erro Semântico: nó desconhecido '{kind}'")
 
     def eval(self, node):
-        if type(node) in (int, bool, str):
+        if type(node) in (int, bool):
             return node
 
         kind = node[0]
@@ -255,17 +252,25 @@ class Interpreter:
                 values.append(value)
 
             function = self.functions[function_name]
+            if function_name in self.call_stack:
+                raise Exception(
+                    f"Erro Semântico: funções recursivas não são suportadas ('{function_name}')"
+                )
+
             old_env = self.env.copy()
             old_env_types = self.env_types.copy()
+            self.call_stack.append(function_name)
 
-            for param_name, param_type, value in zip(function["params"], expected_args, values):
-                self.env[param_name] = value
-                self.env_types[param_name] = param_type
+            try:
+                for param_name, param_type, value in zip(function["params"], expected_args, values):
+                    self.env[param_name] = value
+                    self.env_types[param_name] = param_type
 
-            result = self.eval(function["body"])
-
-            self.env = old_env
-            self.env_types = old_env_types
+                result = self.eval(function["body"])
+            finally:
+                self.env = old_env
+                self.env_types = old_env_types
+                self.call_stack.pop()
 
             actual_ret_type = self.get_type(result)
             if actual_ret_type != signature["return"]:

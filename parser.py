@@ -61,8 +61,7 @@ class MiniFunParser:
 
     def p_type(self, p):
         """type : INT_TYPE
-                | BOOL_TYPE
-                | STRING_TYPE"""
+                | BOOL_TYPE"""
         p[0] = p[1]
 
     def p_expression_if(self, p):
@@ -143,10 +142,6 @@ class MiniFunParser:
         "atom : NUMBER"
         p[0] = p[1]
 
-    def p_atom_string(self, p):
-        "atom : STRING"
-        p[0] = p[1]
-
     def p_atom_true(self, p):
         "atom : TRUE"
         p[0] = True
@@ -194,10 +189,6 @@ class MiniFunParser:
     def p_pattern_false(self, p):
         "pattern : FALSE"
         p[0] = False
-
-    def p_pattern_string(self, p):
-        "pattern : STRING"
-        p[0] = p[1]
 
     def p_pattern_default(self, p):
         "pattern : UNDERSCORE"
