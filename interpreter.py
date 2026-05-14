@@ -165,7 +165,7 @@ class Interpreter:
             value = self.eval(value_expr)
             self.env[name] = value
             self.env_types[name] = declared_type
-            return value
+            return None
 
         if kind == "var":
             name = node[1]

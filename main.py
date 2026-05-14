@@ -12,6 +12,16 @@ def load_input() -> str | None:
     return None
 
 
+def format_value(value):
+    if type(value) is bool:
+        return "true" if value else "false"
+    return str(value)
+
+
+def format_result(value, interpreter: Interpreter) -> str:
+    return f"resultado: {format_value(value)} tipo: {interpreter.get_type(value)}"
+
+
 def run_source(source: str, parser: MiniFunParser, interpreter: Interpreter):
     ast = parser.parse(source)
     if not ast:
@@ -20,7 +30,41 @@ def run_source(source: str, parser: MiniFunParser, interpreter: Interpreter):
     for expr in ast:
         result = interpreter.eval(expr)
         if result is not None:
-            print(result)
+            print(format_result(result, interpreter))
+
+
+def is_block_complete(source: str) -> bool:
+    stripped = source.strip()
+    if not stripped:
+        return False
+
+    if not stripped.endswith(";"):
+        return False
+
+    when_count = stripped.count("when")
+    end_count = stripped.count("end")
+    return when_count == end_count
+
+
+def interactive_mode(parser: MiniFunParser, interpreter: Interpreter):
+    print("Modo interativo (Ctrl+C para sair)")
+    buffer = []
+
+    while True:
+        prompt = ">> " if not buffer else ".. "
+        line = input(prompt)
+
+        if not line.strip() and not buffer:
+            continue
+
+        buffer.append(line)
+        source = "\n".join(buffer)
+
+        if not is_block_complete(source):
+            continue
+
+        run_source(source, parser, interpreter)
+        buffer.clear()
 
 
 def main():
@@ -34,10 +78,7 @@ def main():
             run_source(source, parser, interpreter)
             return
 
-        print("Modo interativo (Ctrl+C para sair)")
-        while True:
-            line = input(">> ")
-            run_source(line, parser, interpreter)
+        interactive_mode(parser, interpreter)
 
     except KeyboardInterrupt:
         print("\nA terminar.")
