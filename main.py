@@ -1,4 +1,5 @@
 import sys
+import re
 from pathlib import Path
 
 from interpreter import Interpreter
@@ -34,7 +35,9 @@ def run_source(source: str, parser: MiniFunParser, interpreter: Interpreter):
 
 
 def is_block_complete(source: str) -> bool:
-    stripped = source.strip()
+    cleaned = re.sub(r"\{-[\s\S]*?-\}", "", source)
+    cleaned = re.sub(r"--[^\n]*", "", cleaned)
+    stripped = cleaned.strip()
     if not stripped:
         return False
 
@@ -82,8 +85,10 @@ def main():
 
     except KeyboardInterrupt:
         print("\nA terminar.")
+    except EOFError:
+        print("\nA terminar.")
     except FileNotFoundError as exc:
-        print(f"Erro: ficheiro não encontrado ({exc.filename})")
+        print(f"Erro: ficheiro nao encontrado ({exc.filename})")
     except Exception as exc:
         print(exc)
 

@@ -200,6 +200,6 @@ class MiniFunParser:
 
     def p_error(self, p):
         if p:
-            print(f"Linha {p.lineno}: erro de sintaxe perto de '{p.value}'")
+            raise SyntaxError(f"Linha {p.lineno}: erro de sintaxe perto de '{p.value}'")
         else:
-            print("Erro de sintaxe no fim do ficheiro")
+            raise SyntaxError("Erro de sintaxe no fim do ficheiro")

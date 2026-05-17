@@ -105,8 +105,7 @@ class MiniFunLexer:
         pass
 
     def t_error(self, t):
-        print(f"Linha {t.lineno}: caractere ilegal '{t.value[0]}'")
-        t.lexer.skip(1)
+        raise SyntaxError(f"Linha {t.lineno}: caractere ilegal '{t.value[0]}'")
 
     def test(self, text):
         self.lexer.lineno = 1
