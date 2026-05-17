@@ -2,6 +2,7 @@ import ply.lex as lex
 
 
 class MiniFunLexer:
+    # Tokens reconhecidos pelo analisador lexico.
     tokens = (
         "NUMBER",
         "ID",
@@ -37,6 +38,7 @@ class MiniFunLexer:
         "FALSE",
     )
 
+    # Palavras reservadas da linguagem.
     reserved = {
         "let": "LET",
         "fun": "FUN",

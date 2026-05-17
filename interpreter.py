@@ -1,7 +1,9 @@
 class Interpreter:
     def __init__(self):
+        # Ambiente global de valores e respetivos tipos.
         self.env = {}
         self.env_types = {}
+        # Definicoes de funcoes e assinaturas declaradas.
         self.functions = {}
         self.signatures = {}
         self.call_stack = []
@@ -29,6 +31,7 @@ class Interpreter:
         return isinstance(pattern, tuple) and pattern == ("wildcard",)
 
     def infer_type(self, node, local_types=None):
+        # Verificacao semantica dos tipos antes da avaliacao.
         if type(node) is bool:
             return "Bool"
         if type(node) is int:
@@ -144,6 +147,7 @@ class Interpreter:
         raise Exception(f"Erro Semantico: no desconhecido '{kind}'")
 
     def eval(self, node):
+        # Avaliacao da AST produzida pelo parser.
         if type(node) in (int, bool):
             return node
 
@@ -208,6 +212,7 @@ class Interpreter:
                     f"Erro Semantico: a definicao da funcao '{name}' tem parametros repetidos"
                 )
 
+            # Cada parametro fica associado ao tipo definido na assinatura.
             local_types = self.env_types.copy()
             for param_name, param_type in zip(params, expected_args):
                 local_types[param_name] = param_type
@@ -257,6 +262,7 @@ class Interpreter:
                     f"Erro Semantico: funcoes recursivas nao sao suportadas ('{function_name}')"
                 )
 
+            # A chamada usa um ambiente temporario para os parametros.
             old_env = self.env.copy()
             old_env_types = self.env_types.copy()
             self.call_stack.append(function_name)

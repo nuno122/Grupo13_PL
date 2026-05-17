@@ -1,43 +1,62 @@
-
+-- Definicoes simples
 let x : Int = 10;
 let y : Int = 5;
 let ativo : Bool = true;
 
+-- Expressoes aritmeticas
 x + y;
 x - y;
 x * y;
 x / y;
+(x + 2) * 3;
 
+-- Expressoes booleanas
 x < y;
 x > y;
 x == y;
 x != y;
+ativo == true;
 
-if x > y then x else y;
+-- Definicoes dependentes
+let base : Int = 8;
+let altura : Int = 4;
+let area : Int = base * altura;
+let maiorQueDez : Bool = area > 10;
 
-let idade : Int = 18;
-let maiorDeIdade : Bool = idade >= 18;
-
-maiorDeIdade;
-
-if maiorDeIdade then 1 else 0;
-
-let area : Int = (4 + 2) * 5;
 area;
+maiorQueDez;
 
+-- Condicional
+if maiorQueDez then area else 0;
+
+-- Funcoes
 fun dobro : Int -> Int;
 let dobro n = n * 2;
 
-dobro 10;
-
 fun maior : Int -> Int -> Int;
-let maior a b =
-    if a > b then a else b;
+let maior a b = if a > b then a else b;
 
-maior 20 30;
+fun ePositivo : Int -> Bool;
+let ePositivo n = n > 0;
 
+dobro 7;
+maior (x) (y);
+ePositivo (0 - 3);
+ePositivo (area);
+
+-- When
 when (x) is
     0 -> 100;
-    5 -> 200;
+    5, 10 -> 200;
     _ -> 999;
+end;
+
+when (ativo) is
+    true -> 1;
+    false -> 0;
+end;
+
+when ((0 - y)) is
+    -5 -> 1;
+    _ -> 0;
 end;

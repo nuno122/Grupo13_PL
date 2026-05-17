@@ -7,6 +7,7 @@ from parser import MiniFunParser
 
 
 def load_input() -> str | None:
+    # Le um ficheiro .lf.
     if len(sys.argv) > 1:
         path = Path(sys.argv[1])
         return path.read_text(encoding="utf-8")
@@ -24,6 +25,7 @@ def format_result(value, interpreter: Interpreter) -> str:
 
 
 def run_source(source: str, parser: MiniFunParser, interpreter: Interpreter):
+    # Faz parsing do codigo e executa cada instrucao pela ordem original.
     ast = parser.parse(source)
     if not ast:
         return
@@ -35,6 +37,7 @@ def run_source(source: str, parser: MiniFunParser, interpreter: Interpreter):
 
 
 def is_block_complete(source: str) -> bool:
+    # Ignora comentarios antes de verificar se um bloco interativo terminou.
     cleaned = re.sub(r"\{-[\s\S]*?-\}", "", source)
     cleaned = re.sub(r"--[^\n]*", "", cleaned)
     stripped = cleaned.strip()
@@ -50,6 +53,7 @@ def is_block_complete(source: str) -> bool:
 
 
 def interactive_mode(parser: MiniFunParser, interpreter: Interpreter):
+    # Permite introduzir instrucoes diretamente no terminal.
     print("Modo interativo (Ctrl+C para sair)")
     buffer = []
 

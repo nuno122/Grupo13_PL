@@ -2,3 +2,9 @@ __pycache__/
 *.pyc
 parser.out
 parsetab.py
+*.temp
+*.log
+*.aux
+*.out
+*.toc
+

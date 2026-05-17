@@ -17,6 +17,7 @@ class MiniFunParser:
     def p_program(self, p):
         """program : program statement
                    | statement"""
+        # O programa e representado como uma lista de instrucoes.
         if len(p) == 3:
             p[0] = p[1] + [p[2]]
         else:
@@ -117,6 +118,7 @@ class MiniFunParser:
 
     def p_application(self, p):
         "application : primary application_tail"
+        # Uma aplicacao de funcao guarda a funcao e a lista de argumentos.
         if p[2]:
             p[0] = ("call", p[1], p[2])
         else:
